@@ -1,0 +1,64 @@
+frontend/package.json
+{
+  "name": "resume-ai-frontend",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^18.0.0",
+    "axios": "^1.6.0"
+  }
+}
+
+frontend/src/App.js
+import ResumeAnalyzer from "./ResumeAnalyzer";
+
+function App() {
+  return <ResumeAnalyzer />;
+}
+
+export default App;
+
+frontend/src/ResumeAnalyzer.js
+import { useState } from "react";
+import axios from "axios";
+
+export default function ResumeAnalyzer() {
+  const [file, setFile] = useState(null);
+  const [jd, setJd] = useState("");
+  const [result, setResult] = useState(null);
+
+  const analyze = async () => {
+    const formData = new FormData();
+    formData.append("resume", file);
+    formData.append("job_description", jd);
+
+    const res = await axios.post(
+      "http://localhost:8000/resume/analyze",
+      formData
+    );
+    setResult(res.data);
+  };
+
+  return (
+    <div className="p-8 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold">AI Resume Analyzer</h1>
+
+      <input type="file" onChange={e => setFile(e.target.files[0])} />
+      <textarea
+        placeholder="Paste Job Description"
+        className="border w-full mt-4 p-2"
+        onChange={e => setJd(e.target.value)}
+      />
+
+      <button onClick={analyze} className="bg-black text-white p-2 mt-4">
+        Analyze
+      </button>
+
+      {result && (
+        <div className="mt-4">
+          <p>Match Score: {result.match_score}%</p>
+          <p>Missing Skills: {result.missing_skills.join(", ")}</p>
+        </div>
+      )}
+    </div>
+  );
+}
