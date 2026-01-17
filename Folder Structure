@@ -1,0 +1,21 @@
+ai-resume-job-match-analyzer/
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── api/
+│   │   ├── services/
+│   │   ├── models/
+│   │   └── utils/
+│   ├── requirements.txt
+│   └── README.md
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── README.md
+│
+├── .gitignore
+├── README.md
+└── LICENSE
